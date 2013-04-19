@@ -22,20 +22,14 @@
 include_recipe "build-essential"
 include_recipe "git"
 
+include_recipe "yasm"
+
 x264_packages.each do |pkg|
   package pkg do
     action :purge
   end
 end
 
-yasm_package = value_for_platform(
-  [ "ubuntu" ] => { "default" => "yasm" },
-  "default" => "yasm"
-)
-
-package yasm_package do
-  action :upgrade
-end
 
 git "#{Chef::Config[:file_cache_path]}/x264" do
   repository node[:x264][:git_repository]
